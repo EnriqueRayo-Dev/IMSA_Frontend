@@ -1,1 +1,21 @@
-<p>registro-solicitud works!</p>
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-5 form-control">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-8 col-sm-8 mt-5">
+                <label for="input-nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control input-underline" formControlName="name" id="input-nombre">
+                <label for="input-direccion" class="form-label">Direccion</label>
+                <input type="text" formControlName="adress" class="form-control input-underline" id="input-direccion">
+                <label for="input-celu" class="form-label">Telefono</label>
+                <input maxlength="8" type="text" formControlName="phone" class="form-control input-underline" id="input-celu">
+            </div>       
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-12 col-sm-12 mt-2 mb-2">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </div> 
+        </div>
+    </form>
+</div>

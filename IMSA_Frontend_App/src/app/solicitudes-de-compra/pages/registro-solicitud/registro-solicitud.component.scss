@@ -1,0 +1,31 @@
+.container{
+  
+  height: 500px;
+  width: 85%;
+
+}
+
+button{
+    width: 50%;
+}
+.input-underline {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  color: #323c47;
+  border: none;
+  border-bottom: 1px solid #d3d8dd;
+  margin: 0;
+  width: 100%;
+  outline: none; /* Elimina el contorno al hacer clic */
+  box-shadow: none; /* Elimina la sombra por defecto */
+    
+}
+
+.form-label {
+    color: #6c757d; /* Color gris similar a los placeholders */
+    font-size: 0.9rem; /* Tamaño de fuente similar al placeholder */
+    opacity: 0.7; /* Opacidad más baja para simular el estilo del placeholder */
+    margin-bottom: 0.25rem; /* Espaciado inferior */
+}
