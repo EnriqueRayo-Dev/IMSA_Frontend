@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { routes } from '../../app.routes';
+import { ToggleMenuService } from '../services/toggle-menu.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidemenu',
@@ -10,10 +12,20 @@ import { routes } from '../../app.routes';
   templateUrl: './sidemenu.component.html',
   styleUrl: './sidemenu.component.scss'
 })
-export class SidemenuComponent {
+export class SidemenuComponent implements OnInit{
+ public mostrarMenu : boolean = true;
+ public esPantallaPequena: boolean = false;
+ public clickButtonH : boolean = false;
+ private subscription!: Subscription;
 
-  constructor(public router: Router){
-    
+  @ViewChild('menuRef') menuRef!: ElementRef;
+  constructor(public router: Router,private toggleService: ToggleMenuService,private cdr: ChangeDetectorRef){
+  }
+  
+  ngOnInit(): void {
+    this.toggleService.toggleMenu$.subscribe(()=>{
+      this.mostrarMenu = !this.mostrarMenu;
+    })
   }
 
   public meniUtems = routes
@@ -25,5 +37,27 @@ export class SidemenuComponent {
     if(url && url.path)
       this.router.navigate([url.path]);
   }
+
+  @HostListener('window:resize', ['$event'])
+onResize(event: Event) {
+  this.esPantallaPequena = window.innerWidth <= 900;
+  this.cambiarEstilosPantallaPequeña(this.esPantallaPequena)
+
+}
+
+
+cambiarEstilosPantallaPequeña(esPantallaPequeña: boolean){
+    if(esPantallaPequeña){
+      this.mostrarMenu = false
+    }else{
+      this.mostrarMenu = true;
+    }
+    
+}
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+   
 
 }
