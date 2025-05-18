@@ -4,7 +4,13 @@
       <app-sidemenu></app-sidemenu>
       <div class="text-black px-2 mt-2 w-full">
         <app-header></app-header>
+       @if (isLoading) {
+        <div class="loading">
+           <app-loading></app-loading>
+        </div>
+       }@else{
         <router-outlet></router-outlet>
+       }
       </div>
     </div>
 </div>

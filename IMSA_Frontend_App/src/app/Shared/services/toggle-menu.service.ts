@@ -9,14 +9,18 @@ export class ToggleMenuService {
   constructor() { }
 
    private toggleMenuSubject = new Subject<void>();
-   //private toggleButtonSubject = new Subject<void>();
+   public botonHamburguesa: boolean = false;
    toggleMenu$ = this.toggleMenuSubject.asObservable();
-   buttonH$ = this.toggleMenuSubject.asObservable();
 
   triggerToggleMenu() {
     this.toggleMenuSubject.next();
   }
-  //  toggleButton() {
-  //   this.toggleButtonSubject.next();
-  // }
+  getBotonHamburguesa(){
+    return this.botonHamburguesa;
+  }
+
+  setBotonHamburguesa(botonH: boolean){
+      this.botonHamburguesa = botonH;
+  }
+
 }

@@ -11,12 +11,14 @@ import { ToggleMenuService } from '../services/toggle-menu.service';
 export class HeaderComponent {
 
   constructor(private toggleService: ToggleMenuService){}
+  public mostrarBotonHamburguesa: boolean = false;
 
   onHamburgerClick(){
     this.toggleService.triggerToggleMenu();
   }
 
-  //  onToggle() {
-  //   this.toggleService.toggleButton();
-  // }
+  get botonHamburguesa(){
+    return this.toggleService.getBotonHamburguesa();
+  }
+
 }
