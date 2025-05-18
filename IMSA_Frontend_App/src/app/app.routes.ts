@@ -12,6 +12,26 @@ export const routes: Routes = [
                 title: 'Solicitudes de compra',
                 loadChildren:() => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m)=> m.changeDetectionComponts)
             },
+              {
+                path:'dashboard-de-solicitudes',
+                title: 'Dashboard de solicitudes',
+                loadChildren:() => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m)=> m.changeDetectionComponts)
+            },
+              {
+                path:'mantenimiento-clientes',
+                title: 'Mantenimiento de clientes',
+                loadChildren:() => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m)=> m.changeDetectionComponts)
+            },
+            {
+                path:'mantenimiento-analistas',
+                title: 'Mantenimiento de analistas',
+                loadChildren:() => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m)=> m.changeDetectionComponts)
+            },
+            {
+                path:'mantenimiento-proveedores',
+                title: 'Mantenimiento de proveedores',
+                loadChildren:() => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m)=> m.changeDetectionComponts)
+            },
             {
                 path:'',
                 redirectTo: "",
