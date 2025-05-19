@@ -1,7 +1,7 @@
 
 <div class="container offset-lg-3 offset-xl-3">
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <div class="pb-4 bg-white dark:bg-gray-900 p-2">
+    <div class="flex space-x-2 pb-4 bg-white dark:bg-gray-900 p-2">
         <label for="table-search" class="sr-only">Search</label>
         <div class="relative mt-1">
             <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -11,7 +11,11 @@
             </div>
             <input type="text" id="table-search" class="block pt-2 pb-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
         </div>
-    </div>
+  
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Ver Solicitud
+</button>
+</div>
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -180,4 +184,44 @@
         </tbody>
     </table>
 </div>
+</div>
+
+
+<!-- Modal -->
+<div #exampleModal class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tabs con Tailwind</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs -->
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+          <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="tab-example" data-tabs-toggle="#tab-content-example" role="tablist">
+            <li class="me-2" role="presentation">
+              <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab"
+                      data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">
+                Profile
+              </button>
+            </li>
+            <li class="me-2" role="presentation">
+              <button class="inline-block p-4 border-b-2 rounded-t-lg" id="dashboard-tab"
+                      data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
+                Dashboard
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div id="tab-content-example">
+          <div class="hidden p-4 rounded-lg bg-gray-50" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <p class="text-sm text-gray-500">Contenido de perfil.</p>
+          </div>
+          <div class="hidden p-4 rounded-lg bg-gray-50" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <p class="text-sm text-gray-500">Contenido del dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
