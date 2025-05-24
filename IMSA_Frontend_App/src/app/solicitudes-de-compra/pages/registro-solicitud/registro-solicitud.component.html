@@ -1,20 +1,169 @@
-<div class="container offset-lg-3 offset-xl-3">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-2 form-control">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 col-md-8 col-sm-8 mt-5">
-                <label for="input-nombre" class="form-label">Nombre</label>
-                <input type="text" class="input-underline" formControlName="name" id="input-nombre">
-                <label for="input-direccion" class="form-label">Direccion</label>
-                <input type="text" formControlName="adress" class=" input-underline" id="input-direccion">
-                <label for="input-celu" class="form-label">Telefono</label>
-            </div>       
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-12 col-sm-12 mt-2 mb-2">
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+<div class="container offset-lg-2 offset-xl-2">
+    <mat-card class="form-card p-4">
+        <form [formGroup]="solicitudForm" (ngSubmit)="Submit()">
+            <div class="row">
+                <div class="col-md-6 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Fecha de la solicitud</mat-label>
+                        <input formControlName="fechaSolicitud" matInput [matDatepicker]="picker" />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
                 </div>
-            </div> 
-        </div>
-    </form>
+
+                <div class="col-md-6 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>No. Sc Solicitante</mat-label>
+                        <input formControlName="numeroScSolicitud" matInput placeholder="Sc. Solicitante" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-12  mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Nombre del solicitante</mat-label>
+                        <input formControlName="nombreSolicitante" matInput placeholder="Nombre soliciante" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>No. Folio</mat-label>
+                        <input formControlName="numeroFolio" matInput placeholder="No. Folio" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Fecha recibo UCC</mat-label>
+                        <input formControlName="fechaReciboUCC" matInput [matDatepicker]="picker2" />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Encargado adquisiciones</mat-label>
+                        <input formControlName="encargadoAdquisicion" matInput placeholder="Encargado" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>E-mail adquisiciones</mat-label>
+                        <input formControlName="email" matInput placeholder="E-mail" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Tel&eacute;fono adquisiciones</mat-label>
+                        <input formControlName="telefono" matInput placeholder="Teléfono" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <!-- --------------------Tabla--------------------------------------- -->
+            <div class="row">
+                <form [formGroup]="tableForm">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" formArrayName="rows">
+
+                        <!-- ITEM Column -->
+                        <ng-container matColumnDef="item">
+                            <th mat-header-cell *matHeaderCellDef> ITEM </th>
+                            <td mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }} </td>
+                        </ng-container>
+
+                        <!-- Descripcion Column -->
+                        <ng-container matColumnDef="descripcion">
+                            <th mat-header-cell *matHeaderCellDef> DESCRIPCION DEL BIEN Y/O SERVICIO </th>
+                            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+                                <ng-container *ngIf="!isSubmitted; else showDescripcion">
+                                    <input matInput formControlName="descripcion" placeholder="Descripción" />
+                                </ng-container>
+                                <ng-template #showDescripcion>
+                                    {{ row.get('descripcion')?.value }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+
+                        <!-- Unidad de medida Column -->
+                        <ng-container matColumnDef="unidad">
+                            <th mat-header-cell *matHeaderCellDef> UNIDAD DE MEDIDA </th>
+                            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+                                <ng-container *ngIf="!isSubmitted; else showUnidad">
+                                    <input matInput formControlName="unidad" placeholder="Unidad" />
+                                </ng-container>
+                                <ng-template #showUnidad>
+                                    {{ row.get('unidad')?.value }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+
+                        <!-- CANTIDAD REQUERIDA Column -->
+                        <ng-container matColumnDef="cantidadRequerida">
+                            <th mat-header-cell *matHeaderCellDef> CANTIDAD REQUERIDA A LIMPIAR DE OXIDO </th>
+                            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+                                <ng-container *ngIf="!isSubmitted; else showCantidadRequerida">
+                                    <input matInput formControlName="cantidadRequerida" placeholder="Cantidad" />
+                                </ng-container>
+                                <ng-template #showCantidadRequerida>
+                                    {{ row.get('cantidadRequerida')?.value }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                        <!-- Precio unitario Column -->
+                        <ng-container matColumnDef="precio">
+                            <th mat-header-cell *matHeaderCellDef> PRECIO UNITARIO C$ </th>
+                            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+                                <ng-container *ngIf="!isSubmitted; else showPrecio">
+                                    <input matInput formControlName="precio" placeholder="Precio" />
+                                </ng-container>
+                                <ng-template #showPrecio>
+                                    {{ row.get('precio')?.value }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                        <!-- Precio unitario Column -->
+                        <ng-container matColumnDef="subtotal">
+                            <th mat-header-cell *matHeaderCellDef> SUB-TOTAL C$ </th>
+                            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+                                <ng-container *ngIf="!isSubmitted; else showSubTotal">
+                                    <input matInput formControlName="subTotal" placeholder="Sub-total" />
+                                </ng-container>
+                                <ng-template #showSubTotal>
+                                    {{ row.get('subtotal')?.value }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                        <!-- Actions Column -->
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let row; let i = index">
+                                <button *ngIf="!isSubmitted" mat-icon-button color="warn" (click)="removeRow(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" [formGroupName]="i">
+                        </tr>
+                    </table>
+
+                    <div style="margin-top: 16px;">
+                        <button mat-raised-button color="primary" (click)="addRow()" *ngIf="btnMostrarAgregar">Agregar Producto
+                            </button>
+                        <button mat-raised-button color="accent" (click)="submitTableForm()"
+                            *ngIf="!isSubmitted ">Guardar Producto</button>
+                    </div>
+                </form>
+            </div>
+            <div class="text-center">
+                <button color="primary" mat-flat-button type="submit" color="primary">
+                    <mat-icon>check_circle</mat-icon>
+                    Aceptar
+                </button>
+            </div>
+        </form>
+    </mat-card>
 </div>

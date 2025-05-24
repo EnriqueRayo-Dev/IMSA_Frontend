@@ -42,7 +42,7 @@ export class SidemenuComponent implements OnInit{
 
   @HostListener('window:resize', ['$event'])
 onResize(event: Event) {
-  this.esPantallaPequena = window.innerWidth <= 900;
+  this.esPantallaPequena = window.innerWidth <= 1200;
   this.cambiarEstilosPantallaPequeña(this.esPantallaPequena)
 
 }
