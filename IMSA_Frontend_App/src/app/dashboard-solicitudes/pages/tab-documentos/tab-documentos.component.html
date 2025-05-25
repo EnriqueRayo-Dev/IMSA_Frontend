@@ -1,0 +1,30 @@
+<div class="container mt-3">
+  <mat-card class="upload-card" *ngFor="let card of uploadCards; let i = index">
+    <mat-card-header>
+      <mat-card-title>Archivo </mat-card-title>
+      <mat-card-subtitle>Sube o descarga un archivo</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Input file oculto -->
+      <input type="file" [id]="'fileInput' + i" hidden (change)="onFileSelected($event, i)" />
+      
+      <!-- Botón para subir -->
+      <button mat-raised-button color="primary" (click)="triggerFileInput(i)">
+        <mat-icon>upload_file</mat-icon> Elegir archivo
+      </button>
+
+      <!-- Botón para descargar -->
+      <button mat-raised-button color="accent" class="ml-2" [disabled]="!card.file" (click)="downloadFile(i)">
+        <mat-icon>download</mat-icon> Descargar
+      </button>
+
+      <p *ngIf="card.fileName" class="file-name">Archivo: {{ card.fileName }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div style="margin-top: 20px; margin-bottom: 20px;">
+  <button mat-raised-button color="accent" (click)="addCard()">
+    <mat-icon>add</mat-icon> Agregar nuevo archivo
+  </button>
+</div>

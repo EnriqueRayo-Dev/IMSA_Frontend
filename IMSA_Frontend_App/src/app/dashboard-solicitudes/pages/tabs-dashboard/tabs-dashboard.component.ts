@@ -4,10 +4,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TabInfoGeneralComponent } from '../tab-info-general/tab-info-general.component';
 import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
+import { TabDocumentosComponent } from '../tab-documentos/tab-documentos.component';
 @Component({
   selector: 'app-tabs-dashboard',
   standalone: true,
-  imports: [MatTabsModule , CommonModule,TabInfoGeneralComponent
+  imports: [MatTabsModule , CommonModule,TabInfoGeneralComponent,TabDocumentosComponent
   ],
   templateUrl: './tabs-dashboard.component.html',
   styleUrl: './tabs-dashboard.component.scss'

@@ -43,7 +43,7 @@ import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
   styleUrl: './dashboard-de-solicitudes.component.scss'
 })
 export class DashboardDeSolicitudesComponent implements OnInit {
-  public displayedColumns: string[] = ['Folio','Numero Solicitud', 'Fecha Solicitud', 'Nombre Solicitante', 'Encargado Adquisicion'];
+  public displayedColumns: string[] = ['Folio','Numero Solicitud', 'Fecha Solicitud', 'Nombre Solicitante', 'Encargado Adquisicion','Asignado a'];
   public dataSource: Solicitud[] = [];
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef,

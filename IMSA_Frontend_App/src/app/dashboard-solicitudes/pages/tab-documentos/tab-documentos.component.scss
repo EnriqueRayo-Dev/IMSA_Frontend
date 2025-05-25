@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* espacio entre tarjetas */
+  justify-content: flex-start;
+}
+
+.upload-card {
+  flex: 1 1 calc(33.333% - 16px); /* 3 tarjetas por fila con margen */
+  box-sizing: border-box;
+  min-width: 280px; /* para que no se haga muy pequeña en pantallas chicas */
+}
+
+button{
+    padding: 10px;
+}
