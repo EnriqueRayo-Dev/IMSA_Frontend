@@ -8,15 +8,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource } from '@angular/material/table';
 import { timeout } from 'rxjs';
 import { Producto } from '../../interfaces/producto';
+import { Solicitud } from '../../interfaces/solicitud';
 @Component({
   selector: 'app-registro-solicitud',
   standalone: true,
-    imports: [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -25,11 +26,11 @@ import { Producto } from '../../interfaces/producto';
     MatButtonModule,
     MatCardModule,
     FormsModule,
-     MatDatepickerModule,
+    MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
     MatIconModule,
-    
+
   ],
   templateUrl: './registro-solicitud.component.html',
   styleUrl: './registro-solicitud.component.scss'
@@ -38,24 +39,25 @@ export class RegistroSolicitudComponent {
 
   public btnMostrarAgregar: boolean = false;
   public productosGuardados: Producto[] = [];
+  public solicitud: Solicitud | null = null;
   tableForm: FormGroup;
   solicitudForm: FormGroup;
   isSubmitted = false;
-  displayedColumns = ['item', 'descripcion', 'unidad','cantidadRequerida','precio','subtotal','acciones'];
+  displayedColumns = ['item', 'descripcion', 'unidad', 'cantidadRequerida', 'precio', 'subtotal', 'acciones'];
   dataSource = new MatTableDataSource<AbstractControl>();
 
-  
-  constructor(private fb: FormBuilder,private cd: ChangeDetectorRef) {
 
-     this.solicitudForm = this.fb.group({
-     fechaSolicitud: ['', Validators.required],
-     numeroScSolicitud: ['', Validators.required],
-     nombreSolicitante: ['', Validators.required],
-     numeroFolio: ['', Validators.required],
-     fechaReciboUCC: ['', Validators.required],
-     encargadoAdquisicion: ['', Validators.required],
-     email: ['', Validators.required],
-     telefono: ['', Validators.required]
+  constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
+
+    this.solicitudForm = this.fb.group({
+      fechaSolicitud: ['', Validators.required],
+      numeroScSolicitud: ['', Validators.required],
+      nombreSolicitante: ['', Validators.required],
+      numeroFolio: ['', Validators.required],
+      fechaReciboUCC: ['', Validators.required],
+      encargadoAdquisicion: ['', Validators.required],
+      email: ['', Validators.required],
+      telefono: ['', Validators.required]
     });
 
     this.tableForm = this.fb.group({
@@ -72,68 +74,88 @@ export class RegistroSolicitudComponent {
   addRow() {
     this.isSubmitted = false;
     const row = this.fb.group({
-       descripcion: ['',Validators.required],
-       unidad: ['',Validators.required],
-       precio: [''],
-       cantidadRequerida: ['',Validators.required],
-       subTotal:['']
+      descripcion: ['', Validators.required],
+      unidad: ['', Validators.required],
+      precio: [''],
+      cantidadRequerida: ['', Validators.required],
+      subTotal: ['']
     });
-    
+
     this.rows.push(row);
-    this.dataSource.data = this.rows.controls; 
+    this.dataSource.data = this.rows.controls;
     this.btnMostrarAgregar = false;
   }
 
   removeRow(index: number) {
     this.rows.removeAt(index);
-    this.dataSource.data = this.rows.controls; 
-    let tablaVacia =this.esTablaVacia();
-    if(tablaVacia){
-       this.btnMostrarAgregar = true;
-       this.isSubmitted = true;
+    this.dataSource.data = this.rows.controls;
+    let tablaVacia = this.esTablaVacia();
+    if (tablaVacia) {
+      this.btnMostrarAgregar = true;
+      this.isSubmitted = true;
     }
-}
+  }
 
   submitTableForm() {
-   let tablaVacia = this.esTablaVacia();
-   if(tablaVacia){
-    console.log('tabla vacia')
-    return
-   }
+    let tablaVacia = this.esTablaVacia();
+    if (tablaVacia) {
+      return
+    }
     this.isSubmitted = true;
     this.productosGuardados = this.rows.value;
     this.btnMostrarAgregar = true;
   }
 
-  Submit(){
+  Submit() {
     let tablaVacia = this.esTablaVacia();
-    if(tablaVacia || this.solicitudForm.invalid ){
-     this.solicitudForm.markAllAsTouched();
-    this.tableForm.markAllAsTouched();
-    console.log('uno de los form no esta completo')
-    return;
+    if (tablaVacia || this.solicitudForm.invalid) {
+      this.solicitudForm.markAllAsTouched();
+      this.tableForm.markAllAsTouched();
+      console.log('uno de los form no esta completo')
+      return;
     }
-    console.log('formularios validos')
+    const formValues = this.solicitudForm.value;
+    const tableRows = this.tableForm.get('rows')?.value as Producto[];
+
+    this.solicitud = {
+      fechaSolicitud: formValues.fechaSolicitud,
+      numeroScSolicitud: formValues.numeroScSolicitud,
+      nombreSolicitante: formValues.nombreSolicitante,
+      numeroFolio: formValues.numeroFolio,
+      fechaReciboUCC: formValues.fechaReciboUCC,
+      encargadoAdquisicion: formValues.encargadoAdquisicion,
+      emailAdquisiciones: formValues.email,
+      telefonoAdquisiciones: formValues.telefono,
+      producto: tableRows
+    };
+    const solicitudesGuardadas = localStorage.getItem('solicitud');
+    let solicitudesArray = solicitudesGuardadas ? JSON.parse(solicitudesGuardadas) : [];
+
+    // Añadimos la nueva solicitud al array
+    solicitudesArray.push(this.solicitud);
+
+    // Guardamos el array actualizado en localStorage
+    localStorage.setItem('solicitud', JSON.stringify(solicitudesArray));
     this.limpiarFormularios();
   }
 
   public esTablaVacia(): boolean {
-    if(this.dataSource.data.length == 0 || this.tableForm.invalid)
+    if (this.dataSource.data.length == 0 || this.tableForm.invalid)
       return true;
     else
-    return false;
+      return false;
   }
 
 
   limpiarFormularios(): void {
-  // Limpia todos los valores del formulario principal
-  this.solicitudForm.reset();
+    // Limpia todos los valores del formulario principal
+    this.solicitudForm.reset();
 
-  // Limpia las filas de la tabla (FormArray)
-  const rows = this.tableForm.get('rows') as FormArray;
-  rows.clear(); // elimina todas las filas del FormArray
-  this.dataSource.data= this.rows.controls;
-}
+    // Limpia las filas de la tabla (FormArray)
+    const rows = this.tableForm.get('rows') as FormArray;
+    rows.clear(); // elimina todas las filas del FormArray
+    this.dataSource.data = this.rows.controls;
+  }
 
 
 }

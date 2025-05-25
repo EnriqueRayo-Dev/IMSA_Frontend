@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, FormArray, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,13 +8,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource } from '@angular/material/table';
 import { timeout } from 'rxjs';
 import { RouterOutlet } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TabsDashboardComponent } from '../tabs-dashboard/tabs-dashboard.component';
+import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
 
 
 @Component({
@@ -29,55 +30,48 @@ import { TabsDashboardComponent } from '../tabs-dashboard/tabs-dashboard.compone
     MatButtonModule,
     MatCardModule,
     FormsModule,
-     MatDatepickerModule,
+    MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
     MatIconModule,
-    RouterOutlet,MatButtonModule,MatDialogModule
-    
+    MatButtonModule,
+    MatDialogModule
+
   ],
 
   templateUrl: './dashboard-de-solicitudes.component.html',
   styleUrl: './dashboard-de-solicitudes.component.scss'
 })
-export class DashboardDeSolicitudesComponent {
+export class DashboardDeSolicitudesComponent implements OnInit {
+  public displayedColumns: string[] = ['Folio','Numero Solicitud', 'Fecha Solicitud', 'Nombre Solicitante', 'Encargado Adquisicion'];
+  public dataSource: Solicitud[] = [];
 
-
-  constructor(private fb: FormBuilder,private cd: ChangeDetectorRef,
+  constructor(private fb: FormBuilder, private cd: ChangeDetectorRef,
     public dialog: MatDialog
   ) {
 
   }
+  ngOnInit(): void {
+    const solicitudesStr = localStorage.getItem('solicitud');
+    const solicitudes: Solicitud[] = JSON.parse(solicitudesStr ?? "");
+    this.dataSource = solicitudes;
+  }
 
- ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
- displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = this.ELEMENT_DATA;
   clickedRows = new Set<PeriodicElement>();
   onRowClicked(row: PeriodicElement) {
-  console.log('Fila clickeada:', row);
-}
+    
+  }
 
-onRowDoubleClicked(row: PeriodicElement) {
+  onRowDoubleClicked(row: Solicitud) {
     const dialogRef = this.dialog.open(TabsDashboardComponent, {
-  width: '95vw',     
-  height: '80vw',       // 70% del viewport height (opcional)
-  maxWidth: 'none',     // elimina el max-width por defecto
-  maxHeight: '90vh',
-  panelClass: 'custom-dialog-container' // para estilos extra si quieres
-});
-}
+      width: '95vw',
+      height: '80vw',       // 70% del viewport height (opcional)
+      maxWidth: 'none',     // elimina el max-width por defecto
+      maxHeight: '90vh',
+      panelClass: 'custom-dialog-container', // para estilos extra si quieres
+      data:row
+    });
+  }
 
 
 }

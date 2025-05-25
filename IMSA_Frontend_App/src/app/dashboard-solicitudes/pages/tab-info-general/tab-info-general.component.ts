@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, FormArray, AbstractControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource } from '@angular/material/table';
 import { timeout } from 'rxjs';
 import { Producto } from '../../../solicitudes-de-compra/interfaces/producto';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
 
 
 @Component({
@@ -36,7 +38,7 @@ import { Producto } from '../../../solicitudes-de-compra/interfaces/producto';
   templateUrl: './tab-info-general.component.html',
   styleUrl: './tab-info-general.component.scss'
 })
-export class TabInfoGeneralComponent {
+export class TabInfoGeneralComponent implements OnInit{
 
   public btnMostrarAgregar: boolean = false;
   public productosGuardados: Producto[] = [];
@@ -46,18 +48,47 @@ export class TabInfoGeneralComponent {
   displayedColumns = ['item', 'descripcion', 'unidad','cantidadRequerida','precio','subtotal','acciones'];
   dataSource = new MatTableDataSource<AbstractControl>();
 
+   ngOnInit(): void {
+   
+    this.solicitudForm.patchValue({
+      fechaSolicitud: this.data.fechaSolicitud,
+      numeroScSolicitud: this.data.numeroScSolicitud,
+      nombreSolicitante: this.data.nombreSolicitante,
+      numeroFolio: this.data.numeroFolio,
+      fechaReciboUCC: this.data.fechaReciboUCC,
+      encargadoAdquisicion: this.data.encargadoAdquisicion,
+      email: this.data.emailAdquisiciones,
+      telefono: this.data.telefonoAdquisiciones
+    });
+
+    const productosArray = this.tableForm.get('rows') as FormArray;
+    productosArray.clear();
+     this.data.producto.forEach(producto => {
+      productosArray.push(this.fb.group({
+        descripcion: [producto.descripcion],
+        unidad: [producto.unidad],
+        cantidadRequerida: [producto.cantidadRequerida],
+        precio: [producto.precio],
+        subTotal: [producto.subTotal]
+      }));
+    });
+
+    this.dataSource.data = productosArray.controls;
+  }
   
-  constructor(private fb: FormBuilder,private cd: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder,private cd: ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA) public data: Solicitud
+  ) {
 
      this.solicitudForm = this.fb.group({
-     fechaSolicitud: ['', Validators.required],
-     numeroScSolicitud: ['', Validators.required],
-     nombreSolicitante: ['', Validators.required],
-     numeroFolio: ['', Validators.required],
-     fechaReciboUCC: ['', Validators.required],
-     encargadoAdquisicion: ['', Validators.required],
-     email: ['', Validators.required],
-     telefono: ['', Validators.required]
+     fechaSolicitud: [''],
+     numeroScSolicitud: ['',''],
+     nombreSolicitante: ['', ''],
+     numeroFolio: ['', ''],
+     fechaReciboUCC: ['', ''],
+     encargadoAdquisicion: ['', ''],
+     email: ['', ''],
+     telefono: ['', '']
     });
 
     this.tableForm = this.fb.group({
@@ -66,6 +97,7 @@ export class TabInfoGeneralComponent {
     this.dataSource = new MatTableDataSource(this.rows.controls);
     this.addRow(); // Agrega una fila inicial
   }
+ 
 
   get rows(): FormArray {
     return this.tableForm.get('rows') as FormArray;
@@ -74,10 +106,10 @@ export class TabInfoGeneralComponent {
   addRow() {
     this.isSubmitted = false;
     const row = this.fb.group({
-       descripcion: ['',Validators.required],
-       unidad: ['',Validators.required],
+       descripcion: ['',''],
+       unidad: ['',''],
        precio: [''],
-       cantidadRequerida: ['',Validators.required],
+       cantidadRequerida: ['',''],
        subTotal:['']
     });
     
@@ -108,15 +140,7 @@ export class TabInfoGeneralComponent {
   }
 
   Submit(){
-    let tablaVacia = this.esTablaVacia();
-    if(tablaVacia || this.solicitudForm.invalid ){
-     this.solicitudForm.markAllAsTouched();
-    this.tableForm.markAllAsTouched();
-    console.log('uno de los form no esta completo')
-    return;
-    }
-    console.log('formularios validos')
-    this.limpiarFormularios();
+      
   }
 
   public esTablaVacia(): boolean {
@@ -126,14 +150,4 @@ export class TabInfoGeneralComponent {
     return false;
   }
 
-
-  limpiarFormularios(): void {
-  // Limpia todos los valores del formulario principal
-  this.solicitudForm.reset();
-
-  // Limpia las filas de la tabla (FormArray)
-  const rows = this.tableForm.get('rows') as FormArray;
-  rows.clear(); // elimina todas las filas del FormArray
-  this.dataSource.data= this.rows.controls;
-}
 }

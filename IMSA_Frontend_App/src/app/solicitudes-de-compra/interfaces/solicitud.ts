@@ -1,6 +1,6 @@
 import { Producto } from "./producto";
 
-export interface solicitud{
+export interface Solicitud{
     fechaSolicitud: Date;
     numeroScSolicitud: string;
     nombreSolicitante: string;
