@@ -45,7 +45,7 @@ export class TabInfoGeneralComponent implements OnInit{
   tableForm: FormGroup;
   solicitudForm: FormGroup;
   isSubmitted = false;
-  displayedColumns = ['item', 'descripcion', 'unidad','cantidadRequerida','precio','subtotal','acciones'];
+  displayedColumns = ['item', 'descripcion', 'unidad','cantidadRequerida','precio','subTotal','acciones'];
   dataSource = new MatTableDataSource<AbstractControl>();
 
    ngOnInit(): void {
@@ -74,6 +74,8 @@ export class TabInfoGeneralComponent implements OnInit{
     });
 
     this.dataSource.data = productosArray.controls;
+    this.isSubmitted = true;
+    this.btnMostrarAgregar = true;
   }
   
   constructor(private fb: FormBuilder,private cd: ChangeDetectorRef,
@@ -95,7 +97,6 @@ export class TabInfoGeneralComponent implements OnInit{
       rows: this.fb.array([]),
     });
     this.dataSource = new MatTableDataSource(this.rows.controls);
-    this.addRow(); // Agrega una fila inicial
   }
  
 
@@ -143,11 +144,22 @@ export class TabInfoGeneralComponent implements OnInit{
       
   }
 
-  public esTablaVacia(): boolean {
-    if(this.dataSource.data.length == 0 || this.tableForm.invalid)
-      return true;
-    else
-    return false;
+public esTablaVacia(): boolean {
+  if (this.dataSource.data.length === 0) return true;
+
+  for (let row of this.rows.controls) {
+    if (
+      !row.get('descripcion')?.value ||
+      !row.get('unidad')?.value ||
+      !row.get('cantidadRequerida')?.value ||
+      !row.get('precio')?.value
+    ) {
+      return true; 
+    }
   }
+
+  return false; 
+}
+
 
 }
