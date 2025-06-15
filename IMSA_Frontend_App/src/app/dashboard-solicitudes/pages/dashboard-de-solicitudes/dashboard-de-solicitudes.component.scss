@@ -70,3 +70,30 @@ button {
     width: 100%;
   }
 }
+
+.row-selected {
+background-color: #e0e0e0 !important; /* Gris claro */
+}
+
+.btn-finalizar{
+   background-color: #D32F2F !important; /* rojo oscuro */
+  color: white !important;
+}
+
+.col-6 > button,
+.col-6 > mat-checkbox {
+  margin-right: 10px; /* espacio a la derecha */
+ 
+}
+
+.checkHistorico span{
+   font-size: 20px !important;
+}
+
+.checkHistorico{
+padding-top: 10px;
+}
+
+.text-start {
+  text-align: left !important;
+}

@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { solicitudesGuardGuard } from './solicitudes-de-compra/solicitudes-guard.guard';
+
 
 export const routes: Routes = [
 
@@ -10,6 +12,7 @@ export const routes: Routes = [
             {
                 path: 'solicitudes-de-compra',
                 title: 'Solicitudes de compra',
+                canActivate:[solicitudesGuardGuard],
                 loadChildren: () => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m) => m.ordenesCompraRoute)
             },
             {
@@ -20,7 +23,7 @@ export const routes: Routes = [
              {
                 path: 'cotizador',
                 title: 'Cotizar',
-                loadChildren: () => import('./Cotizador/cotizador.route').then((m) => m.cotizadorRoute)
+                loadChildren: () => import('./cotizador/cotizador.route').then((m) => m.cotizadorRoute)
             },
             {
                 path: 'mantenimiento-clientes',

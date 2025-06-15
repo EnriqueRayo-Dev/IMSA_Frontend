@@ -43,7 +43,7 @@ export class RegistroSolicitudComponent {
   tableForm: FormGroup;
   solicitudForm: FormGroup;
   isSubmitted = false;
-  displayedColumns = ['item', 'descripcion', 'unidad', 'cantidadRequerida', 'precio', 'subtotal', 'acciones'];
+  displayedColumns = ['item', 'descripcion', 'unidad', 'cantidadRequerida', 'precio', 'subTotal', 'acciones'];
   dataSource = new MatTableDataSource<AbstractControl>();
 
 

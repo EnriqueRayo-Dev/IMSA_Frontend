@@ -124,14 +124,14 @@
                             </td>
                         </ng-container>
                         <!-- Precio unitario Column -->
-                        <ng-container matColumnDef="subtotal">
+                        <ng-container matColumnDef="subTotal">
                             <th mat-header-cell *matHeaderCellDef> SUB-TOTAL C$ </th>
                             <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
                                 <ng-container *ngIf="!isSubmitted; else showSubTotal">
                                     <input matInput formControlName="subTotal" placeholder="Sub-total" />
                                 </ng-container>
                                 <ng-template #showSubTotal>
-                                    {{ row.get('subtotal')?.value }}
+                                    {{ row.get('subTotal')?.value }}
                                 </ng-template>
                             </td>
                         </ng-container>
@@ -139,7 +139,7 @@
                         <ng-container matColumnDef="acciones">
                             <th mat-header-cell *matHeaderCellDef> Acciones </th>
                             <td mat-cell *matCellDef="let row; let i = index">
-                                <button *ngIf="!isSubmitted" mat-icon-button color="warn" (click)="removeRow(i)">
+                                <button mat-icon-button color="warn" (click)="removeRow(i)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>

@@ -16,7 +16,7 @@ import { RouterOutlet } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TabsDashboardComponent } from '../tabs-dashboard/tabs-dashboard.component';
 import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-dashboard-de-solicitudes',
@@ -35,7 +35,8 @@ import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule
 
   ],
 
@@ -43,8 +44,10 @@ import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
   styleUrl: './dashboard-de-solicitudes.component.scss'
 })
 export class DashboardDeSolicitudesComponent implements OnInit {
-  public displayedColumns: string[] = ['Folio','Numero Solicitud', 'Fecha Solicitud', 'Nombre Solicitante', 'Encargado Adquisicion','Asignado a'];
-  public dataSource: Solicitud[] = [];
+  public displayedColumns: string[] = ['Folio', 'Numero Solicitud', 'Fecha Solicitud', 'Nombre Solicitante', 'Encargado Adquisicion', 'Asignado a'];
+  public dataSource = new MatTableDataSource<Solicitud>();
+  public selectedRow: any;
+  public isChecked: boolean = false;
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef,
     public dialog: MatDialog
@@ -54,22 +57,55 @@ export class DashboardDeSolicitudesComponent implements OnInit {
   ngOnInit(): void {
     const solicitudesStr = localStorage.getItem('solicitud');
     const solicitudes: Solicitud[] = JSON.parse(solicitudesStr ?? "");
-    this.dataSource = solicitudes;
+    this.dataSource.data = solicitudes;
   }
 
   clickedRows = new Set<PeriodicElement>();
   onRowClicked(row: PeriodicElement) {
-    
+    if (this.selectedRow === row) {
+      this.selectedRow = null; 
+    } else {
+      this.selectedRow = row; 
+    }
   }
 
   onRowDoubleClicked(row: Solicitud) {
+    this.enviarDatosDialogo(row);
+  }
+
+  aplicarFiltro(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  onCheckChange(checked: boolean) {
+    this.isChecked = checked;
+  }
+
+  verSolicitud() {
+    if (!this.selectedRow) {
+      alert('debe seleccionar un registro algo')
+    } else {
+      this.enviarDatosDialogo(this.selectedRow);
+    }
+  }
+
+  finalizarSolicitud() {
+    if (!this.selectedRow) {
+      alert('debe seleccionar un registro algo')
+    } else {
+
+    }
+  }
+
+  enviarDatosDialogo(row: Solicitud) {
     const dialogRef = this.dialog.open(TabsDashboardComponent, {
       width: '95vw',
       height: '80vw',       // 70% del viewport height (opcional)
       maxWidth: 'none',     // elimina el max-width por defecto
       maxHeight: '90vh',
-      panelClass: 'custom-dialog-container', // para estilos extra si quieres
-      data:row
+      panelClass: 'custom-dialog-container', // para estilos 
+      data: row
     });
   }
 

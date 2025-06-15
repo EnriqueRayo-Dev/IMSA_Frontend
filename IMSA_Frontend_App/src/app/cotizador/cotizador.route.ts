@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { CotizadorComponent } from "./components/cotizador/cotizador.component";
+import { CotizadorComponent } from "./pages/cotizador/cotizador.component";
 
 export const cotizadorRoute: Routes =[
 
