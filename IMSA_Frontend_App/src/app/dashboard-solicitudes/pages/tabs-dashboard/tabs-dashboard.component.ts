@@ -29,5 +29,9 @@ export class TabsDashboardComponent {
   closeDialog(): void {
     this.dialogRef.close();
   }
+  
+  public Guardar(){
+
+  }
 
 }
