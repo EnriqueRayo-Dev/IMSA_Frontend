@@ -19,6 +19,7 @@ export default class DashboardComponent {
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        
         this.isLoading = true;
       }
 

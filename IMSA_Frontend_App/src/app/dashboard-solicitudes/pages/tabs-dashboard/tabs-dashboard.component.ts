@@ -5,10 +5,13 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TabInfoGeneralComponent } from '../tab-info-general/tab-info-general.component';
 import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
 import { TabDocumentosComponent } from '../tab-documentos/tab-documentos.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 @Component({
   selector: 'app-tabs-dashboard',
   standalone: true,
-  imports: [MatTabsModule , CommonModule,TabInfoGeneralComponent,TabDocumentosComponent
+  imports: [MatTabsModule , CommonModule,TabInfoGeneralComponent,TabDocumentosComponent,MatIconModule,MatButtonModule
   ],
   templateUrl: './tabs-dashboard.component.html',
   styleUrl: './tabs-dashboard.component.scss'
