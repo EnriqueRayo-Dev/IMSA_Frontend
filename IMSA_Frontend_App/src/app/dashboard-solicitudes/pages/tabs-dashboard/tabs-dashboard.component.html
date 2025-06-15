@@ -1,7 +1,7 @@
 <div class="dialog-header">
   <button class="close-button" (click)="dialogRef.close()">✕</button>
 </div>
-<div class="container">
+<div class="dialog-body">
   <mat-tab-group>
     <mat-tab id="tab" label="Datos Generales"><app-tab-info-general></app-tab-info-general> </mat-tab>
     <mat-tab label="Documentos"> <app-tab-documentos></app-tab-documentos> </mat-tab>
@@ -9,7 +9,7 @@
   </mat-tab-group>
 
 </div>
-<div class="button-container">
+<div class="dialog-footer">
   <div class="text-center">
     <button color="primary" mat-flat-button (click)="Guardar()" color="primary">
       <mat-icon>check_circle</mat-icon>

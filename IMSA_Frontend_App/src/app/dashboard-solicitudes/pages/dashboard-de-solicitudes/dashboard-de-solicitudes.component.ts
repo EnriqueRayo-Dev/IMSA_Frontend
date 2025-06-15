@@ -48,13 +48,19 @@ export class DashboardDeSolicitudesComponent implements OnInit {
   public dataSource = new MatTableDataSource<Solicitud>();
   public selectedRow: any;
   public isChecked: boolean = false;
-
+  public isMobile: boolean = false;
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef,
     public dialog: MatDialog
   ) {
 
   }
   ngOnInit(): void {
+
+    this.isMobile = window.innerWidth <= 768;
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
+    });
+
     const solicitudesStr = localStorage.getItem('solicitud');
     const solicitudes: Solicitud[] = JSON.parse(solicitudesStr ?? "");
     this.dataSource.data = solicitudes;
@@ -63,9 +69,9 @@ export class DashboardDeSolicitudesComponent implements OnInit {
   clickedRows = new Set<PeriodicElement>();
   onRowClicked(row: PeriodicElement) {
     if (this.selectedRow === row) {
-      this.selectedRow = null; 
+      this.selectedRow = null;
     } else {
-      this.selectedRow = row; 
+      this.selectedRow = row;
     }
   }
 
@@ -94,7 +100,7 @@ export class DashboardDeSolicitudesComponent implements OnInit {
     if (!this.selectedRow) {
       alert('debe seleccionar un registro algo')
     } else {
-
+      alert('Eliminada')
     }
   }
 

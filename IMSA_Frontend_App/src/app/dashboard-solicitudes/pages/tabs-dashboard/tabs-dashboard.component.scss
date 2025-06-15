@@ -1,4 +1,4 @@
-.container{
+.dialog-body{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,7 +6,7 @@
     
 }
 
-.container .First {
+.dialog-body .First {
     height: 100%;
 }
 
@@ -32,7 +32,7 @@
 #tab{
 background: black;
 }
-.button-container{
+.dialog-footer{
   margin-top: 10px;
   margin-bottom: 10px;
 }

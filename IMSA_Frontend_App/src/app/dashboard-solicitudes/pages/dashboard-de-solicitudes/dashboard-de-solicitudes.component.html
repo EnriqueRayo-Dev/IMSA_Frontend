@@ -1,58 +1,79 @@
 <div class="container offset-lg-2 offset-xl-2">
   <div class="row mb-3">
-    <div class="col-6" >
+    <div class="col-6">
       <mat-form-field appearance="outline" class="w-100">
         <input matInput (keyup)="aplicarFiltro($event)" placeholder="Buscar">
       </mat-form-field>
     </div>
-     <div class="col-auto text-start">
-            <mat-checkbox [(ngModel)]="isChecked" (ngModelChange)="onCheckChange($event)" class="checkHistorico" ><span>Histórico</span></mat-checkbox>
-     </div>
     <div class="col-auto text-start">
-       <button  mat-raised-button (click)="verSolicitud()" >Ver solicitud
+      <mat-checkbox [(ngModel)]="isChecked" (ngModelChange)="onCheckChange($event)"
+        class="checkHistorico"><span>Histórico</span></mat-checkbox>
+    </div>
+    <div class="col-auto text-start" *ngIf="!isMobile">
+      <button mat-raised-button (click)="verSolicitud()">Ver solicitud
       </button>
     </div>
-    <div class="col-auto text-start">
-       <button mat-raised-button (click)="finalizarSolicitud()"  class="btn-finalizar">Finalizar solicitud
+    <div class="col-auto text-start" *ngIf="!isMobile">
+      <button mat-raised-button (click)="finalizarSolicitud()" class="btn-finalizar">Finalizar solicitud
       </button>
     </div>
   </div>
   <div class="row">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-      <ng-container matColumnDef="Folio">
-        <th mat-header-cell *matHeaderCellDef>No. Folio</th>
-        <td mat-cell *matCellDef="let element">{{element.numeroFolio}}</td>
-      </ng-container>
+    <div class="col-12" *ngIf="!isMobile">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table  w-100">
+        <ng-container matColumnDef="Folio">
+          <th mat-header-cell *matHeaderCellDef>No. Folio</th>
+          <td mat-cell *matCellDef="let element">{{element.numeroFolio}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="Numero Solicitud">
-        <th mat-header-cell *matHeaderCellDef>Numero Solicitud</th>
-        <td mat-cell *matCellDef="let element">{{element.numeroScSolicitud}}</td>
-      </ng-container>
+        <ng-container matColumnDef="Numero Solicitud">
+          <th mat-header-cell *matHeaderCellDef>Numero Solicitud</th>
+          <td mat-cell *matCellDef="let element">{{element.numeroScSolicitud}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="Fecha Solicitud">
-        <th mat-header-cell *matHeaderCellDef>Fecha Solicitud</th>
-        <td mat-cell *matCellDef="let element">{{element.fechaSolicitud}}</td>
-      </ng-container>
+        <ng-container matColumnDef="Fecha Solicitud">
+          <th mat-header-cell *matHeaderCellDef>Fecha Solicitud</th>
+          <td mat-cell *matCellDef="let element">{{element.fechaSolicitud}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="Nombre Solicitante">
-        <th mat-header-cell *matHeaderCellDef>Nombre Solicitante</th>
-        <td mat-cell *matCellDef="let element">{{element.nombreSolicitante}}</td>
-      </ng-container>
+        <ng-container matColumnDef="Nombre Solicitante">
+          <th mat-header-cell *matHeaderCellDef>Nombre Solicitante</th>
+          <td mat-cell *matCellDef="let element">{{element.nombreSolicitante}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="Encargado Adquisicion">
-        <th mat-header-cell *matHeaderCellDef>Encargado Adquisicion</th>
-        <td mat-cell *matCellDef="let element">{{element.encargadoAdquisicion}}</td>
-      </ng-container>
+        <ng-container matColumnDef="Encargado Adquisicion">
+          <th mat-header-cell *matHeaderCellDef>Encargado Adquisicion</th>
+          <td mat-cell *matCellDef="let element">{{element.encargadoAdquisicion}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="Asignado a">
-        <th mat-header-cell *matHeaderCellDef>Analista Asignado</th>
-        <td mat-cell *matCellDef="let element">{{element.encargadoAdquisicion}}</td>
-      </ng-container>
+        <ng-container matColumnDef="Asignado a">
+          <th mat-header-cell *matHeaderCellDef>Analista Asignado</th>
+          <td mat-cell *matCellDef="let element">{{element.encargadoAdquisicion}}</td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row (click)="onRowClicked(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
-        [class.row-selected]="selectedRow === row" *matRowDef="let row; columns: displayedColumns;"
-        (dblclick)="onRowDoubleClicked(row)"></tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click)="onRowClicked(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
+          [class.row-selected]="selectedRow === row" *matRowDef="let row; columns: displayedColumns;"
+          (dblclick)="onRowDoubleClicked(row)"></tr>
+      </table>
+    </div>
+    <div class="col-12 w-100" *ngIf="isMobile">
+      <div *ngFor="let element of dataSource.data" class="mobile-card">
+        <p><strong>No. Folio:</strong> {{ element.numeroFolio }}</p>
+        <p><strong>Numero Solicitud:</strong> {{ element.numeroScSolicitud }}</p>
+        <p><strong>Fecha Solicitud:</strong> {{ element.fechaSolicitud }}</p>
+        <p><strong>Nombre Solicitante:</strong> {{ element.nombreSolicitante }}</p>
+        <p><strong>Encargado Adquisicion:</strong> {{ element.encargadoAdquisicion }}</p>
+        <p><strong>Analista Asignado:</strong> {{ element.encargadoAdquisicion }}</p>
+        <button mat-button mat-flat-button color="primary" style="margin-right: 5px;" (click)="selectedRow = element; verSolicitud()">
+          Ver solicitud
+        </button>
+        <button mat-raised-button (click)="selectedRow = element; finalizarSolicitud()" class="btn-finalizar">Finalizar
+          solicitud
+        </button>
+      </div>
+    </div>
+
+
   </div>
 </div>
