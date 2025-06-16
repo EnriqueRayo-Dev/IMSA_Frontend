@@ -52,8 +52,4 @@ export default class DashboardComponent implements OnInit {
     this.mostrarMenu = isClickOnHambur;
   }
 
-  mostrarMenuDespuesDeNavegar(a: boolean){
-    this.mostrarMenu = a;
-  }
-
 }
