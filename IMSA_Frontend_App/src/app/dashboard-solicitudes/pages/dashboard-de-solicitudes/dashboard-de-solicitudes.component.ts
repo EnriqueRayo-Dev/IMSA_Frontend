@@ -107,7 +107,7 @@ export class DashboardDeSolicitudesComponent implements OnInit {
   enviarDatosDialogo(row: Solicitud) {
     const dialogRef = this.dialog.open(TabsDashboardComponent, {
       width: '95vw',
-      height: '80vw',       // 70% del viewport height (opcional)
+      height: this.isMobile ? '90vh' : '80vh',     // 70% del viewport height 
       maxWidth: 'none',     // elimina el max-width por defecto
       maxHeight: '90vh',
       panelClass: 'custom-dialog-container', // para estilos 
