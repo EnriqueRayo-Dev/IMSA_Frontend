@@ -35,7 +35,7 @@ export class SidemenuComponent implements OnInit {
   public meniUtems = routes
     .map((route) => route.children ?? [])
     .flat()
-    .filter((route) => route && route.path)
+    .filter((route) => route && route.path && route.data?.['icon'])
 
   public navigate(url: any) {
     if (url && url.path)
