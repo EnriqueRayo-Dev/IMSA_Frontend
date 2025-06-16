@@ -29,7 +29,7 @@ import { Solicitud } from '../../../solicitudes-de-compra/interfaces/solicitud';
     MatButtonModule,
     MatCardModule,
     FormsModule,
-     MatDatepickerModule,
+    MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
     MatIconModule,
