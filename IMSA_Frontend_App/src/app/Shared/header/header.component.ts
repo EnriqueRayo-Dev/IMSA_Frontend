@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToggleMenuService } from '../services/toggle-menu.service';
 
 @Component({
@@ -8,17 +8,27 @@ import { ToggleMenuService } from '../services/toggle-menu.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  public isMobile: boolean = false;
+  private toggle = false;
 
-  constructor(private toggleService: ToggleMenuService){}
-  public mostrarBotonHamburguesa: boolean = false;
+  @Output() hamburclickEmitter = new EventEmitter<boolean>();
+  constructor(private toggleService: ToggleMenuService) { }
 
-  onHamburgerClick(){
-    this.toggleService.triggerToggleMenu();
+  ngOnInit(): void {
+    this.isMobile = window.innerWidth <= 1000; 
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 1000;
+    });
   }
 
-  get botonHamburguesa(){
-    return this.toggleService.getBotonHamburguesa();
+
+  onHamburgerClick() {
+
+     this.hamburclickEmitter.emit(this.isMobile)
   }
+
+
+
 
 }

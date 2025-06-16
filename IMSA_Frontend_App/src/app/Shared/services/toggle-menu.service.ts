@@ -5,22 +5,19 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ToggleMenuService {
+private menuVisible = new BehaviorSubject<boolean>(true); 
 
-  constructor() { }
-
-   private toggleMenuSubject = new Subject<void>();
-   public botonHamburguesa: boolean = false;
-   toggleMenu$ = this.toggleMenuSubject.asObservable();
+  menuVisible$ = this.menuVisible.asObservable();
 
   triggerToggleMenu() {
-    this.toggleMenuSubject.next();
-  }
-  getBotonHamburguesa(){
-    return this.botonHamburguesa;
+    this.menuVisible.next(!this.menuVisible.value); 
   }
 
-  setBotonHamburguesa(botonH: boolean){
-      this.botonHamburguesa = botonH;
+  getBotonHamburguesa(): boolean {
+    return this.menuVisible.value;
   }
 
+  setMenuVisible(state: boolean) {
+    this.menuVisible.next(state);
+  }
 }

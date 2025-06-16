@@ -1,16 +1,37 @@
+<div
+  class="bg-slate-100 text-black overflow-y-scroll w-screen h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white">
+  <div class="flex relative w-screen">
 
-<div class="bg-slate-100 text-black overflow-y-scroll w-screen h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white">
-    <div class="flex relative w-screen">
-      <app-sidemenu></app-sidemenu>
-      <div class="text-black px-2 mt-2 w-full">
-        <app-header></app-header>
-       @if (isLoading) {
-        <div class="loading">
-           <app-loading></app-loading>
-        </div>
-       }@else{
-        <router-outlet></router-outlet>
-       }
-      </div>
+    <!-- Menú lateral -->
+    <app-sidemenu  
+      *ngIf="mostrarMenu"
+      [ngClass]="{
+        'fixed top-0 left-0 z-50 w-[250px] h-full bg-white shadow-md': isMobile,
+        'block w-[250px] min-w-[250px] bg-white shadow-md h-full': !isMobile
+      }"
+       [isMobile]="isMobile"
+       (closeMenu)="mostrarMenu = false"
+      >
+    </app-sidemenu>
+
+    <!-- Capa de fondo que cierra el menú (solo en móvil) -->
+    <div 
+      *ngIf="mostrarMenu && isMobile" 
+      (click)="mostrarMenu = false"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40">
     </div>
+
+    <!-- Contenido principal -->
+    <div class="text-black mt-2 w-full">
+      <app-header (hamburclickEmitter)="isClickOnHambur($event)"></app-header>
+
+      @if (isLoading) {
+        <div class="loading">
+          <app-loading></app-loading>
+        </div>
+      } @else {
+        <router-outlet></router-outlet>
+      }
+    </div>
+  </div>
 </div>

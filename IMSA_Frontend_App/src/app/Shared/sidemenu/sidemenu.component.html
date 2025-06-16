@@ -1,9 +1,6 @@
 
 <div id="menu" #menuRef class=" top-0 left-0 bg-green-600 z-50 text-slate-300 w-64 h-screen overflow-y-scroll transition-transform duration-300"
-  [ngClass]="{ 
-  'fixed': mostrarMenu, 
-  'hidden': !mostrarMenu 
-}">
+  >
     <div id="logo" class="my-4 px-6">
      <h1 class="text-lg md:text-2xl text-white">Gerente operaciones</h1>
      <!-- <p class="text-slate-500 text-sm">Manage your actions and activities</p> -->
@@ -23,6 +20,7 @@
      @for (item of meniUtems; track $index) {
         <a [routerLink]="item.path" 
            routerLinkActive="" href="#"
+           (click)="onMenuItemClick()"
            class="w-full px-2 inline-flex space-x-2 items-center border-b py-3 hover:bg-white/5 transition ease-linear duration-150">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">

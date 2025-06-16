@@ -56,9 +56,9 @@ export class DashboardDeSolicitudesComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 1000;
     window.addEventListener('resize', () => {
-      this.isMobile = window.innerWidth <= 768;
+      this.isMobile = window.innerWidth <= 1000;
     });
 
     const solicitudesStr = localStorage.getItem('solicitud');
@@ -107,7 +107,7 @@ export class DashboardDeSolicitudesComponent implements OnInit {
   enviarDatosDialogo(row: Solicitud) {
     const dialogRef = this.dialog.open(TabsDashboardComponent, {
       width: '95vw',
-      height: this.isMobile ? '90vh' : '80vh',     // 70% del viewport height 
+      height: this.isMobile ? '90vh' : '90vh',     // 90% del viewport height 
       maxWidth: 'none',     // elimina el max-width por defecto
       maxHeight: '90vh',
       panelClass: 'custom-dialog-container', // para estilos 
