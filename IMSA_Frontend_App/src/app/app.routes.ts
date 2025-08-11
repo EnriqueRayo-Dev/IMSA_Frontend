@@ -1,9 +1,20 @@
 import { Routes } from '@angular/router';
 import { solicitudesGuardGuard } from './solicitudes-de-compra/solicitudes-guard.guard';
+import { MenuInicioComponent } from './pages/menu-inicio/menu-inicio.component'
 
 
 export const routes: Routes = [
 
+    {
+        path: 'menu-inicio',
+        component: MenuInicioComponent,
+        children: [
+            {
+                path: 'dashboard',
+                loadComponent: () => import('./home-dashboard/dashboard.component'),
+            }
+        ]
+    },
     {
         path: 'dashboard',
         loadComponent: () => import('./home-dashboard/dashboard.component'),
@@ -12,9 +23,9 @@ export const routes: Routes = [
             {
                 path: 'solicitudes-de-compra',
                 title: 'Solicitudes de compra',
-                canActivate:[solicitudesGuardGuard],
+                canActivate: [solicitudesGuardGuard],
                 loadChildren: () => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m) => m.ordenesCompraRoute),
-                 data: { icon: 'payments' }
+                data: { icon: 'payments' }
             },
             {
                 path: 'dashboard-de-solicitudes',
@@ -22,29 +33,29 @@ export const routes: Routes = [
                 loadChildren: () => import('./dashboard-solicitudes/dashboard-solicitudes.route').then((m) => m.dashboardSolicitudesRoute),
                 data: { icon: 'dashboard' }
             },
-             {
+            {
                 path: 'cotizador',
                 title: 'Cotizar',
                 loadChildren: () => import('./cotizador/cotizador.route').then((m) => m.cotizadorRoute),
-                 data: { icon: 'request_quote' }
+                data: { icon: 'request_quote' }
             },
             {
                 path: 'mantenimiento-clientes',
                 title: 'Mantenimiento de clientes',
                 loadChildren: () => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m) => m.ordenesCompraRoute),
-                 data: { icon: 'contacts_product' }
+                data: { icon: 'contacts_product' }
             },
             {
                 path: 'mantenimiento-analistas',
                 title: 'Mantenimiento de analistas',
                 loadChildren: () => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m) => m.ordenesCompraRoute),
-                 data: { icon: 'content_paste_search' }
+                data: { icon: 'content_paste_search' }
             },
             {
                 path: 'mantenimiento-proveedores',
                 title: 'Mantenimiento de proveedores',
                 loadChildren: () => import('./solicitudes-de-compra/ordenes-de-compra.route').then((m) => m.ordenesCompraRoute),
-                 data: { icon: 'patient_list' }
+                data: { icon: 'patient_list' }
             },
             {
                 path: '',
@@ -55,7 +66,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: "/dashboard",
+        redirectTo: "/menu-inicio",
         pathMatch: 'full'
     }
 ];
